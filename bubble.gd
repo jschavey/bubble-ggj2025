@@ -84,5 +84,5 @@ func get_key_from_action(action: String) -> String:
 			return event.as_text_physical_keycode()
 	return action
 
-func get_score() -> float:
+func get_score() -> int:
 	return score
