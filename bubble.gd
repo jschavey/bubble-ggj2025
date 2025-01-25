@@ -5,7 +5,7 @@ extends Area2D
 @export var bubble_size: Vector2 = Vector2(64, 64)  # Adjust the bubble size
 
 var spawn_region: Rect2
-var score: int = 0
+var score: float = 0
 var alive: bool = true
 
 @onready var sprite = get_node("../Sprite2D")  # Access the sibling Sprite2D node
@@ -19,9 +19,9 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed(move_left_key) and alive:
-		global_position.x -= 100 * delta
+		global_position.x -= 250 * delta
 	elif Input.is_action_pressed(move_right_key) and alive:
-		global_position.x += 100 * delta
+		global_position.x += 250 * delta
 	sprite.global_position = global_position  # Ensure the sprite moves with the Area2D
 	collision_shape.global_position = global_position  # Ensure the collision shape moves with the Area2D
 	if alive:

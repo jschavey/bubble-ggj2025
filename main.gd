@@ -66,7 +66,6 @@ func spawn_obstacle():
 	obstacle_instance.position = Vector2(randf_range(0, screen_size.x), 0)
 	add_child(obstacle_instance)
 	obstacle_instance.name = "Obstacle"  # Explicitly set the name after adding to the scene
-	print("Spawned obstacle at: ", obstacle_instance.position, " with name: ", obstacle_instance.name)  # Log obstacle spawn position
 
 func _on_Bubble_area_entered(area: Area2D):
 	print("Collision detected with: ", area.name)  # Log the collision
