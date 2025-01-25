@@ -19,9 +19,11 @@ var right_label: Label
 func _ready():
 	# Create left and right labels programmatically
 	left_label = Label.new()
+	left_label.scale = Vector2(2,2)
 	add_child(left_label)
 	
 	right_label = Label.new()
+	right_label.scale = Vector2(2,2)
 	add_child(right_label)
 	
 	# Get the actual key names from InputMap
