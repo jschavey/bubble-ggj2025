@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var obstacle_textures: Array[Texture2D]
-@export var obstacle_size: Vector2 = Vector2(256, 256)  # Adjust the obstacle size
+@export var obstacle_size: Vector2 = Vector2(192, 192)  # Adjust the obstacle size
 @export var speed: float = 200.0
 
 @onready var sprite = get_node("../Sprite2D")  # Access the sibling Sprite2D node

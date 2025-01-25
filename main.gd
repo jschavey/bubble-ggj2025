@@ -6,15 +6,20 @@ extends Node2D
 
 @onready var bubble_scene = preload("res://Bubble.tscn")
 @onready var score_label = $ScoreLabel  # Access the ScoreLabel node
+@onready var high_score_label = $HighScoreLabel  # Add a label to display high score
 
 @export var spawn_rate_increase_interval: float = 10.0  # Time in seconds to increase the spawn rate
 @export var spawn_rate_increase_factor: float = 0.8  # Factor to decrease the spawn interval
+
+@export var high_score_file_path: String = "user://high_score.save"  # File path for saving high score
 
 
 var obstacle_timer = 0.0
 var spawn_rate_timer = 0.0
 var bubbles = []
 var total_score = 0
+var high_score = 0  # Variable to store the high score
+
 
 var bubble_keys = [
 	{"move_left_key": "move_left_2", "move_right_key": "move_right_2"},  # Q and E
@@ -26,6 +31,9 @@ var bubble_keys = [
 ]
 
 func _ready():
+	load_high_score()  # Load high score at the start
+	update_high_score_label()  # Display the loaded high score
+
 	var screen_size = get_viewport().size
 	var regions = [
 		Rect2(Vector2(0, 0), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Top left (Q and E)
@@ -44,7 +52,8 @@ func _ready():
 		area2d_instance.spawn_region = regions[i]
 		add_child(bubble_instance)
 		bubbles.append(area2d_instance)
-		area2d_instance.connect("area_entered", Callable(self, "_on_Bubble_area_entered"))
+		area2d_instance.connect("bubble_popped", Callable(self, "_on_bubble_popped"))  # Connect to bubble_popped signal
+
 
 	update_score_label()  # Initial score display
 
@@ -69,6 +78,7 @@ func _process(delta: float):
 	update_score_label()  # Update the score display
 
 	# Check for game over condition
+	print("Bubble count: ", bubbles.size())
 	if bubbles.is_empty():
 		game_over()
 
@@ -79,17 +89,31 @@ func spawn_obstacle():
 	add_child(obstacle_instance)
 	obstacle_instance.name = "Obstacle"  # Explicitly set the name after adding to the scene
 
-func _on_Bubble_area_entered(area: Area2D):
-	print("Collision detected with: ", area.name)  # Log the collision
-	if area.get_parent().name == "Obstacle":
-		print("Collided with Obstacle")
-		area.queue_free()
-		bubbles.erase(area)
-		if bubbles.is_empty():
-			game_over()
+func _on_bubble_popped(bubble_instance):
+	print("Bubble popped: ", bubble_instance)
+	bubbles.erase(bubble_instance)  # Remove the bubble from the array
+
+	if bubbles.is_empty():
+		game_over()
 
 func update_score_label():
 	score_label.text = "Score: " + str(total_score)  # Update the score label text
+	
+func update_high_score_label():
+	high_score_label.text = "High Score: " + str(high_score)  # Update the high score label text
+
+func save_high_score():
+	var file = FileAccess.open(high_score_file_path, FileAccess.WRITE)
+	if file:
+		file.store_line(str(high_score))
+		file.close()
+
+func load_high_score():
+	var file = FileAccess.open(high_score_file_path, FileAccess.READ)
+	if file:
+		if not file.eof_reached():
+			high_score = file.get_line().to_int()
+		file.close()
 
 func game_over():
 	print("Game Over! Final Score: ", total_score)

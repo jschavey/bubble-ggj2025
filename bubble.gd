@@ -11,6 +11,8 @@ var alive: bool = true
 @onready var sprite = get_node("../Sprite2D")  # Access the sibling Sprite2D node
 @onready var collision_shape = $CollisionShape2D  # Access the CollisionShape2D node
 
+signal bubble_popped(area2d)
+
 var left_label: Label
 var right_label: Label
 
@@ -54,6 +56,7 @@ func _on_Bubble_area_entered(area: Node):
 				print("Collided with Obstacle")
 				alive = false
 				sprite.visible = false  # Hide the sprite immediately
+				emit_signal("bubble_popped", self)
 				queue_free()  # Remove the bubble upon collision
 
 func randomize_position():
