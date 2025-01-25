@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var textures: Array[Texture2D]
-@export var tile_size: Vector2 = Vector2(64, 64)
+@export var tile_size: Vector2 = Vector2(128, 128)  # Adjust the tile size to make them bigger
 @export var speed: float = 100.0
 
 var tiles = []
@@ -24,8 +24,8 @@ func setup_tiles():
 			var tile = Sprite2D.new()
 			tile.texture = textures[randi() % textures.size()]
 			tile.position = Vector2(col * tile_size.x, row * tile_size.y)
-			# Apply random rotation (0, 90, 180, or 270 degrees)
-			tile.rotation_degrees = randi() % 4 * 90
+			tile.scale = tile_size / tile.texture.get_size()  # Scale the texture to the desired tile size
+			tile.rotation_degrees = randi() % 4 * 90  # Apply random rotation (0, 90, 180, or 270 degrees)
 			add_child(tile)
 			tile_row.append(tile)
 		tiles.append(tile_row)

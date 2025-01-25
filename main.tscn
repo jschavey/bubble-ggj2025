@@ -7,3 +7,7 @@
 script = ExtResource("1_gkemp")
 
 [node name="Node2D" parent="." instance=ExtResource("2_7o42b")]
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

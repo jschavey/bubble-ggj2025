@@ -1,0 +1,21 @@
+[gd_scene load_steps=8 format=3 uid="uid://bsygyu5mcqig5"]
+
+[ext_resource type="Script" path="res://obstacle.gd" id="1_chjxo"]
+[ext_resource type="Texture2D" uid="uid://dwuliwg2ykr0p" path="res://PlasticBottle.png" id="2_u243q"]
+[ext_resource type="Texture2D" uid="uid://c8h2iexhfhlw1" path="res://Anchor.png" id="3_n1eft"]
+[ext_resource type="Texture2D" uid="uid://ds6dg5adorm2" path="res://Mine.png" id="4_uvjxv"]
+[ext_resource type="Texture2D" uid="uid://oypk0ka1xr1u" path="res://Plastic6PackRing.png" id="5_fkp10"]
+[ext_resource type="Texture2D" uid="uid://bqotpp2x207di" path="res://TrashBag.png" id="6_dmqps"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvgi6"]
+
+[node name="Obstacle" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_chjxo")
+obstacle_textures = Array[Texture2D]([ExtResource("6_dmqps"), ExtResource("2_u243q"), ExtResource("5_fkp10"), ExtResource("4_uvjxv"), ExtResource("3_n1eft")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_xvgi6")
