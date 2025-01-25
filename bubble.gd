@@ -44,16 +44,6 @@ func _process(delta: float) -> void:
 		score += delta  # Update score continuously while bubble is alive
 	update_labels_position()  # Update the labels' positions
 
-	# Manual collision detection (for comparison)
-	var colliding_areas = get_overlapping_areas()
-	for area in colliding_areas:
-		print("Manual collision detected with: ", area.name)
-		if area.get_parent() and area.get_parent().name.begins_with("Obstacle"):
-			print("Manual collision with Obstacle")
-			alive = false
-			sprite.visible = false  # Hide the sprite immediately
-			queue_free()
-
 func _on_Bubble_area_entered(area: Node):
 	print("Collision detected with: ", area.name)  # Log the collision
 	if area is Area2D:
