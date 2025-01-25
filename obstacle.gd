@@ -34,4 +34,4 @@ func scale_obstacle():
 
 func update_collision_shape():
 	var shape = collision_shape.shape as RectangleShape2D
-	shape.extents = sprite.texture.get_size() * sprite.scale  # Adjust the size based on the texture
+	shape.extents = sprite.texture.get_size() * sprite.scale / 2# Adjust the size based on the texture
