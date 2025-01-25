@@ -7,7 +7,12 @@ extends Node2D
 @onready var bubble_scene = preload("res://Bubble.tscn")
 @onready var score_label = $ScoreLabel  # Access the ScoreLabel node
 
+@export var spawn_rate_increase_interval: float = 10.0  # Time in seconds to increase the spawn rate
+@export var spawn_rate_increase_factor: float = 0.8  # Factor to decrease the spawn interval
+
+
 var obstacle_timer = 0.0
+var spawn_rate_timer = 0.0
 var bubbles = []
 var total_score = 0
 
@@ -45,9 +50,16 @@ func _ready():
 
 func _process(delta: float):
 	obstacle_timer += delta
+	spawn_rate_timer += delta
+	
 	if obstacle_timer >= obstacle_spawn_interval:
 		spawn_obstacle()
 		obstacle_timer = 0.0
+
+	if spawn_rate_timer >= spawn_rate_increase_interval:
+		obstacle_spawn_interval *= spawn_rate_increase_factor  # Decrease the spawn interval to increase spawn rate
+		spawn_rate_timer = 0.0
+		print("Increased obstacle spawn rate, new interval: ", obstacle_spawn_interval)
 
 	# Continuously update the score from all alive bubbles
 	#total_score = 0
