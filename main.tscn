@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgbqjynhqfe5"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_gkemp"]
+[ext_resource type="PackedScene" uid="uid://bx0jqakw152f6" path="res://background.tscn" id="2_7o42b"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_gkemp")
+
+[node name="Node2D" parent="." instance=ExtResource("2_7o42b")]
