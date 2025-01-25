@@ -7,6 +7,8 @@ extends Node2D
 @onready var bubble_scene = preload("res://Bubble.tscn")
 @onready var score_label = $ScoreLabel  # Access the ScoreLabel node
 @onready var high_score_label = $HighScoreLabel  # Add a label to display high score
+@onready var reset_button = $ResetButton  # Access the ResetButton node
+
 
 @export var spawn_rate_increase_interval: float = 10.0  # Time in seconds to increase the spawn rate
 @export var spawn_rate_increase_factor: float = 0.8  # Factor to decrease the spawn interval
@@ -33,6 +35,8 @@ var bubble_keys = [
 func _ready():
 	load_high_score()  # Load high score at the start
 	update_high_score_label()  # Display the loaded high score
+	
+	center_score_label()
 
 	var screen_size = get_viewport().size
 	var regions = [
@@ -54,8 +58,15 @@ func _ready():
 		bubbles.append(area2d_instance)
 		area2d_instance.connect("bubble_popped", Callable(self, "_on_bubble_popped"))  # Connect to bubble_popped signal
 
+	reset_button.connect("pressed", Callable(self, "_on_ResetButton_pressed")) # Connect the reset button
+	reset_button.visible = false  # Initially hide the reset button
 
 	update_score_label()  # Initial score display
+	
+func center_score_label():
+	var screen_width = get_viewport().size.x
+	var label_width = score_label.size.x
+	score_label.position.x = (screen_width - label_width) / 2
 
 func _process(delta: float):
 	obstacle_timer += delta
@@ -78,7 +89,6 @@ func _process(delta: float):
 	update_score_label()  # Update the score display
 
 	# Check for game over condition
-	print("Bubble count: ", bubbles.size())
 	if bubbles.is_empty():
 		game_over()
 
@@ -117,5 +127,57 @@ func load_high_score():
 
 func game_over():
 	print("Game Over! Final Score: ", total_score)
+	if total_score > high_score:
+		high_score = total_score
+		save_high_score()  # Save the new high score
+		update_high_score_label()  # Update the high score display
 	score_label.text += "\nGame Over!"  # Display game over message
+	reset_button.visible = true  # Show the reset button
 	set_process(false)  # Stop processing in the main script
+	
+func _on_ResetButton_pressed():
+	reset_game()
+
+func reset_game():
+	print("Resetting game...")
+	reset_button.visible = false  # Hide the reset button
+
+	# Reset game variables
+	total_score = 0
+	obstacle_timer = 0.0
+	spawn_rate_timer = 0.0
+	obstacle_spawn_interval = 1.0
+
+	# Clear existing bubbles and obstacles
+	for bubble in bubbles:
+		if is_instance_valid(bubble):
+			bubble.queue_free()
+	bubbles.clear()
+
+	for child in get_children():
+		if child.name.begins_with("Obstacle"):
+			child.queue_free()
+
+	# Reinitialize the bubbles
+	var screen_size = get_viewport().size
+	var regions = [
+		Rect2(Vector2(0, 0), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Top left (Q and E)
+		Rect2(Vector2(0, screen_size.y / 3), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Middle left (A and D)
+		Rect2(Vector2(0, 2 * screen_size.y / 3), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Bottom left (Z and C)
+		Rect2(Vector2(screen_size.x / 2, 0), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Top right (I and P)
+		Rect2(Vector2(screen_size.x / 2, screen_size.y / 3), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Middle right (J and L)
+		Rect2(Vector2(screen_size.x / 2, 2 * screen_size.y / 3), Vector2(screen_size.x / 2, screen_size.y / 3))  # Bottom right (N and ,)
+	]
+
+	for i in range(min(num_bubbles, 6)):
+		var bubble_instance = bubble_scene.instantiate()
+		var area2d_instance = bubble_instance.get_child(0)  # Assuming the first child is the Area2D node
+		area2d_instance.move_left_key = bubble_keys[i]["move_left_key"]
+		area2d_instance.move_right_key = bubble_keys[i]["move_right_key"]
+		area2d_instance.spawn_region = regions[i]
+		add_child(bubble_instance)
+		bubbles.append(area2d_instance)
+		area2d_instance.connect("bubble_popped", Callable(self, "_on_bubble_popped"))  # Connect to bubble_popped signal
+
+	set_process(true)  # Restart processing in the main script
+	update_score_label()  # Reset the score label
