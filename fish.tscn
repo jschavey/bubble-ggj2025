@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://blykvyyi73fj6"]
+[gd_scene load_steps=6 format=3 uid="uid://blykvyyi73fj6"]
 
 [ext_resource type="Script" path="res://fish.gd" id="1_uqrys"]
 [ext_resource type="Texture2D" uid="uid://gqib6jfbgwp2" path="res://Anglerfish.png" id="2_lh3m4"]
 [ext_resource type="Texture2D" uid="uid://ba4k7rcilc3mn" path="res://Viperfish.png" id="3_t3rle"]
 [ext_resource type="Texture2D" uid="uid://cy6rferi3xyc4" path="res://AlvinPlesiosaur.png" id="4_t2xni"]
+[ext_resource type="Texture2D" uid="uid://bm2unmy5b0wo1" path="res://GiantGoblinShark.png" id="5_jus8w"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,6 +12,6 @@
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("1_uqrys")
-fish_textures = Array[Texture2D]([ExtResource("2_lh3m4"), ExtResource("3_t3rle"), ExtResource("4_t2xni")])
+fish_textures = Array[Texture2D]([ExtResource("2_lh3m4"), ExtResource("3_t3rle"), ExtResource("4_t2xni"), ExtResource("5_jus8w")])
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]

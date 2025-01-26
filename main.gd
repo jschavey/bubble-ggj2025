@@ -2,11 +2,11 @@ extends Node2D
 
 @export var num_bubbles: int = 6
 @export var obstacle_spawn_interval: float = 1.0
-@export var obstacle_scene = preload("res://Obstacle.tscn")
+@export var obstacle_scene = preload("res://obstacle.tscn")
 
-@onready var bubble_scene = preload("res://Bubble.tscn")
+@onready var bubble_scene = preload("res://bubble.tscn")
 
-@export var fish_scene = preload("res://Fish.tscn")  # Add the fish scene
+@export var fish_scene = preload("res://fish.tscn")  # Add the fish scene
 @export var fish_spawn_interval: float = 10.0  # Interval to spawn fish
 
 @onready var score_label = $ScoreLabel  # Access the ScoreLabel node
