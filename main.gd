@@ -7,7 +7,7 @@ extends Node2D
 @onready var bubble_scene = preload("res://bubble.tscn")
 
 @export var fish_scene = preload("res://fish.tscn")  # Add the fish scene
-@export var fish_spawn_interval: float = 10.0  # Interval to spawn fish
+@export var fish_spawn_interval: float = 5.0  # Interval to spawn fish
 
 @onready var score_label = $ScoreLabel  # Access the ScoreLabel node
 @onready var high_score_label = $HighScoreLabel  # Add a label to display high score
@@ -71,7 +71,6 @@ func _process(delta: float):
 		fish_timer += delta
 		if fish_timer >= fish_spawn_interval:
 			spawn_fish()
-			spawn_fish()
 			fish_timer = 0.0
 
 	# Continuously update the score from all alive bubbles
@@ -102,15 +101,6 @@ func spawn_fish():
 	add_child(fish_instance)
 	fish_instance.get_node('Area2D').set_target_bubble(bubbles[0])  # Set the target bubble to the last remaining bubble
 	fish_instance.name = "Fish"
-
-	while not valid_position:
-		var new_position = Vector2(randf_range(0, screen_size.x), 0)
-		valid_position = true
-
-		for fish in get_children():
-			if fish.name.begins_with("Fish") and fish.global_position.distance_to(new_position) < (1 * fish_size):
-				valid_position = false
-				break
 
 func _on_bubble_popped(bubble_instance):
 	bubble_manager.handle_bubble_popped(bubbles, bubble_instance)
