@@ -54,7 +54,7 @@ func _on_Bubble_area_entered(area: Node):
 		print("Collided with Area2D node")
 		if area.get_parent():
 			print("Parent name: ", area.get_parent().name)  # Log the parent name
-			if area.get_parent().name.begins_with("Obstacle"):
+			if area.get_parent().name.begins_with("Obstacle") or area.get_parent().name.begins_with("Fish"):
 				print("Collided with Obstacle")
 				alive = false
 				sprite.visible = false  # Hide the sprite immediately
