@@ -34,5 +34,5 @@ func scroll_background(delta: float):
 	for row in tiles:
 		for tile in row:
 			tile.position.y += speed * delta
-			if tile.position.y >= get_viewport_rect().size.y:
+			if tile.position.y >= get_viewport_rect().size.y + tile_size.y:
 				tile.position.y -= tile_size.y * len(tiles)

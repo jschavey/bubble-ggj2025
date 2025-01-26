@@ -4,12 +4,14 @@ extends Area2D
 @export var obstacle_size: Vector2 = Vector2(192, 192)  # Adjust the obstacle size
 @export var speed: float = 200.0
 
-@onready var sprite = get_node("../Sprite2D")  # Access the sibling Sprite2D node
-@onready var collision_shape = $CollisionShape2D  # Access the CollisionShape2D node
+@onready var sprite = get_parent().get_node('Sprite2D')  # Access the sibling Sprite2D node
+@onready var collision_polygon = $CollisionPolygon2D  # Access the CollisionPolygon2D node
 
 func _ready():
 	randomize_appearance()
-	scale_obstacle()
+	generate_collision_shape()
+	scale_both()
+	apply_rotation()
 	set_process(true)  # Ensure _process is enabled
 
 func _process(delta: float):
@@ -18,20 +20,39 @@ func _process(delta: float):
 func randomize_appearance():
 	var texture = obstacle_textures[randi() % obstacle_textures.size()]
 	sprite.texture = texture
-	sprite.rotation_degrees = randi() % 360
-	scale_obstacle()
 
 func move_obstacle(delta: float):
 	global_position.y += speed * delta
 	sprite.global_position = global_position  # Ensure the sprite moves with the Area2D
-	collision_shape.position = Vector2.ZERO  # Center the collision shape
+	collision_polygon.global_position = global_position  # Ensure the collision polygon moves with the Area2D
 	if global_position.y > get_viewport_rect().size.y:
 		queue_free()
 
-func scale_obstacle():
-	sprite.scale = obstacle_size / sprite.texture.get_size()
-	update_collision_shape()
+func generate_collision_shape():
+	var image = sprite.texture.get_image()
+	if image:
+		var points = []
+		var center_offset = sprite.texture.get_size() / 2  # Center offset
 
-func update_collision_shape():
-	var shape = collision_shape.shape as RectangleShape2D
-	shape.extents = sprite.texture.get_size() * sprite.scale / 2# Adjust the size based on the texture
+		for y in range(image.get_height()):
+			for x in range(image.get_width()):
+				if image.get_pixel(x, y).a > 0.5:  # Check alpha value
+					points.append(Vector2(x, y) - center_offset)
+
+		# Create a convex polygon from the points
+		var convex_points = Geometry2D.convex_hull(points)
+
+		collision_polygon.polygon = convex_points
+	else:
+		print("Failed to convert texture to image")
+
+func scale_both():
+	var original_size = sprite.texture.get_size()
+	var scale_factor = obstacle_size / original_size
+	sprite.scale = scale_factor
+	collision_polygon.scale = scale_factor
+
+func apply_rotation():
+	var rand_rotation = randi() % 360
+	sprite.rotation_degrees = rand_rotation
+	collision_polygon.rotation_degrees = rand_rotation
