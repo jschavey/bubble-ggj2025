@@ -1,6 +1,6 @@
 extends Node
 
-@export var bubble_scene = preload("res://Bubble.tscn")
+@export var bubble_scene = preload("res://bubble.tscn")
 
 func initialize_bubbles(parent, num_bubbles, bubble_keys, left_key_textures, right_key_textures):
 	var screen_size = parent.get_viewport().size

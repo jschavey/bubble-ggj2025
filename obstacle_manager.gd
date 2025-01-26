@@ -1,6 +1,6 @@
 extends Node
 
-@export var obstacle_scene = preload("res://Obstacle.tscn")
+@export var obstacle_scene = preload("res://obstacle.tscn")
 
 var obstacle_timer = 0.0
 var spawn_rate_timer = 0.0
