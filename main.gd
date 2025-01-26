@@ -10,12 +10,15 @@ extends Node2D
 @onready var reset_button = $ResetButton  # Access the ResetButton node
 @onready var bubble_manager = $BubbleManager  # Access the BubbleManager node
 @onready var ui_manager = $UIManager  # Access the UIManager node
-
+@onready var obstacle_manager = $ObstacleManager  # Access the ObstacleManager node
 
 @export var spawn_rate_increase_interval: float = 10.0  # Time in seconds to increase the spawn rate
 @export var spawn_rate_increase_factor: float = 0.9  # Factor to decrease the spawn interval
 
 @export var high_score_file_path: String = "user://high_score.save"  # File path for saving high score
+
+@export var left_key_textures: Array[Texture2D]  # Array of left key textures
+@export var right_key_textures: Array[Texture2D]  # Array of right key textures
 
 
 var obstacle_timer = 0.0
@@ -40,8 +43,8 @@ func _ready():
 	
 	ui_manager.center_score_label(score_label)
 
-	bubble_manager.initialize_bubbles(self, num_bubbles, bubble_keys)
-
+	bubble_manager.initialize_bubbles(self, num_bubbles, bubble_keys, left_key_textures, right_key_textures)
+	
 	ui_manager.setup_reset_button(reset_button, self)
 
 	ui_manager.update_score_label(score_label, total_score)  # Initial score display

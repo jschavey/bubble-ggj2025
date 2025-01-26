@@ -1,12 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://dgbqjynhqfe5"]
+[gd_scene load_steps=18 format=3 uid="uid://dgbqjynhqfe5"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gkemp"]
 [ext_resource type="PackedScene" uid="uid://bx0jqakw152f6" path="res://background.tscn" id="2_7o42b"]
+[ext_resource type="Texture2D" uid="uid://badw6bkmpw5kf" path="res://ButtonQ.png" id="2_cboga"]
+[ext_resource type="Texture2D" uid="uid://bcvi3eqqedvuv" path="res://ButtonA.png" id="3_6evu6"]
 [ext_resource type="Script" path="res://bubble_manager.gd" id="3_jfjii"]
+[ext_resource type="Texture2D" uid="uid://6ltw0fk0sw1f" path="res://ButtonZ.png" id="4_o71bd"]
 [ext_resource type="Script" path="res://ui_manager.gd" id="4_px56t"]
+[ext_resource type="Texture2D" uid="uid://di7kl4vp6q6jp" path="res://ButtonI.png" id="5_onuhi"]
+[ext_resource type="Texture2D" uid="uid://cpsccdbyybn8x" path="res://ButtonJ.png" id="6_mv06f"]
+[ext_resource type="Texture2D" uid="uid://c4c5885bkasy1" path="res://ButtonN.png" id="7_whbyv"]
+[ext_resource type="Texture2D" uid="uid://cq0xokgjfl7sk" path="res://ButtonE.png" id="8_5rd72"]
+[ext_resource type="Texture2D" uid="uid://cmohxhikosesu" path="res://ButtonD.png" id="9_awyes"]
+[ext_resource type="Texture2D" uid="uid://dxbnv4bc0ru83" path="res://ButtonC.png" id="10_eurox"]
+[ext_resource type="Texture2D" uid="uid://cg8aebidh57y7" path="res://ButtonP.png" id="11_4q2t8"]
+[ext_resource type="Texture2D" uid="uid://dwhyl1xywrjik" path="res://ButtonL.png" id="12_45edj"]
+[ext_resource type="Texture2D" uid="uid://ca3vx4ivbpurg" path="res://ButtonComma.png" id="13_qg0nq"]
+[ext_resource type="Script" path="res://obstacle_manager.gd" id="17_efqxt"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_gkemp")
+left_key_textures = Array[Texture2D]([ExtResource("2_cboga"), ExtResource("3_6evu6"), ExtResource("4_o71bd"), ExtResource("5_onuhi"), ExtResource("6_mv06f"), ExtResource("7_whbyv")])
+right_key_textures = Array[Texture2D]([ExtResource("8_5rd72"), ExtResource("9_awyes"), ExtResource("10_eurox"), ExtResource("11_4q2t8"), ExtResource("12_45edj"), ExtResource("13_qg0nq")])
 
 [node name="Node2D" parent="." instance=ExtResource("2_7o42b")]
 
@@ -36,3 +51,6 @@ script = ExtResource("3_jfjii")
 
 [node name="UIManager" type="Node2D" parent="."]
 script = ExtResource("4_px56t")
+
+[node name="ObstacleManager" type="Node2D" parent="."]
+script = ExtResource("17_efqxt")

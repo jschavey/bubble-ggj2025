@@ -2,7 +2,7 @@ extends Node
 
 @export var bubble_scene = preload("res://Bubble.tscn")
 
-func initialize_bubbles(parent, num_bubbles, bubble_keys):
+func initialize_bubbles(parent, num_bubbles, bubble_keys, left_key_textures, right_key_textures):
 	var screen_size = parent.get_viewport().size
 	var regions = [
 		Rect2(Vector2(0, 0), Vector2(screen_size.x / 2, screen_size.y / 3)),  # Top left (Q and E)
@@ -18,6 +18,8 @@ func initialize_bubbles(parent, num_bubbles, bubble_keys):
 		var area2d_instance = bubble_instance.get_child(0)  # Assuming the first child is the Area2D node
 		area2d_instance.move_left_key = bubble_keys[i]["move_left_key"]
 		area2d_instance.move_right_key = bubble_keys[i]["move_right_key"]
+		area2d_instance.left_key_texture = left_key_textures[i]
+		area2d_instance.right_key_texture = right_key_textures[i]
 		area2d_instance.spawn_region = regions[i]
 		parent.add_child(bubble_instance)
 		parent.bubbles.append(area2d_instance)
