@@ -69,6 +69,7 @@ func _process(delta: float):
 
 	if bubbles.size() == 1:
 		fish_timer += delta
+		bubbles[0].horizontal_speed = 696.9
 		if fish_timer >= fish_spawn_interval:
 			spawn_fish()
 			fish_timer = 0.0

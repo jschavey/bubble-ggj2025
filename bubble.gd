@@ -5,6 +5,7 @@ extends Area2D
 @export var bubble_size: Vector2 = Vector2(64, 64)  # Adjust the bubble size
 @export var left_key_texture: Texture2D
 @export var right_key_texture: Texture2D
+@export var horizontal_speed: float = 350.0
 
 var spawn_region: Rect2
 var score: float = 0.0  # Use float for more precise score calculation
@@ -38,10 +39,11 @@ func _ready():
 	update_key_sprites_position()  # Initial key sprites positioning
 
 func _process(delta: float) -> void:
+	print("speed: ", horizontal_speed)
 	if Input.is_action_pressed(move_left_key) and alive:
-		global_position.x -= 350 * delta
+		global_position.x -= horizontal_speed * delta
 	elif Input.is_action_pressed(move_right_key) and alive:
-		global_position.x += 350 * delta
+		global_position.x += horizontal_speed * delta
 	sprite.global_position = global_position  # Ensure the sprite moves with the Area2D
 	collision_shape.global_position = global_position  # Ensure the collision shape moves with the Area2D
 	if alive:
