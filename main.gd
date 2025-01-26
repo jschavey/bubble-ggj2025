@@ -111,7 +111,7 @@ func _on_ResetButton_pressed():
 
 func reset_game():
 	print("Resetting game...")
-	reset_button.visible = false  # Hide the reset button
+	ui_manager.hide_reset_button(reset_button)  # Hide the reset button
 
 	# Reset game variables
 	total_score = 0
