@@ -39,11 +39,15 @@ func _ready():
 	update_key_sprites_position()  # Initial key sprites positioning
 
 func _process(delta: float) -> void:
-	print("speed: ", horizontal_speed)
+	var viewport_size = get_viewport_rect().size
 	if Input.is_action_pressed(move_left_key) and alive:
 		global_position.x -= horizontal_speed * delta
 	elif Input.is_action_pressed(move_right_key) and alive:
 		global_position.x += horizontal_speed * delta
+
+	# Clamp the bubble's position to stay within the viewport bounds
+	global_position.x = clamp(global_position.x, 0 + bubble_size.x / 2, viewport_size.x - bubble_size.x / 2)
+
 	sprite.global_position = global_position  # Ensure the sprite moves with the Area2D
 	collision_shape.global_position = global_position  # Ensure the collision shape moves with the Area2D
 	if alive:
