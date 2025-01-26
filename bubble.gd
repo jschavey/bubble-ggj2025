@@ -39,9 +39,9 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed(move_left_key) and alive:
-		global_position.x -= 250 * delta
+		global_position.x -= 350 * delta
 	elif Input.is_action_pressed(move_right_key) and alive:
-		global_position.x += 250 * delta
+		global_position.x += 350 * delta
 	sprite.global_position = global_position  # Ensure the sprite moves with the Area2D
 	collision_shape.global_position = global_position  # Ensure the collision shape moves with the Area2D
 	if alive:
